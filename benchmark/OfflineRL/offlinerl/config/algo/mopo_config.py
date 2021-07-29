@@ -42,6 +42,10 @@ soft_target_tau = 5e-3
 horizon = 5
 lam = 2
 
+# Online evaluation callback parameters
+online_eval_period = 50
+online_eval_runs = 1000
+
 #tune
 params_tune = {
     "buffer_size" : {"type" : "discrete", "value": [1e6, 2e6]},
