@@ -34,8 +34,12 @@ def training_function(config):
     algo_init = algo_init_fn(algo_config)
     algo_trainer = algo_trainer_obj(algo_init, algo_config)
 
-    callback = PeriodicCallBack(OnlineCallBackFunction(), 50)
-    callback.initialize(train_buffer=train_buffer, val_buffer=val_buffer, task=algo_config["task"], number_of_runs=1000)
+    # add online evaluation callback
+    callback_period = algo_config['online_eval_period']
+    callback_nb_runs = algo_config['online_eval_runs']
+    callback = PeriodicCallBack(OnlineCallBackFunction(), callback_period)
+    callback.initialize(train_buffer=train_buffer, val_buffer=val_buffer, task=algo_config["task"],
+                        number_of_runs=callback_nb_runs)
 
     # run training
     algo_trainer.train(train_buffer, val_buffer, callback_fn=callback)
