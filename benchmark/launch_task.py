@@ -90,9 +90,22 @@ if __name__ == '__main__':
     parser.add_argument('--algo', type=str,
                         help='select from `bc`, `bcq`, `plas`, `cql`, `crr`, `bremen`, `mopo`')
     parser.add_argument('--address', type=str, default=None, help='address of the ray cluster')
+    parser.add_argument('--local', type=bool, default=False, help='run sequentially')
     args = parser.parse_args()
 
-    ray.init(args.address)
+
+    # override args to run from gui and not cli
+    class Namespace:
+        def __init__(self, **kwargs):
+            self.__dict__.update(kwargs)
+
+
+    args = Namespace(address=None, algo='mopo', amount=1000, domain='ib', level='high', local=True)
+
+    if args.local:
+        ray.init(args.address, local_mode=True)  # run sequentially
+    else:
+        ray.init(args.address)
 
     domain = args.domain
     level = args.level
