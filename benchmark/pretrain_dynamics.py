@@ -51,7 +51,7 @@ def training_dynamics(config):
     obs_shape = train_buffer['obs'].shape[-1]
     action_shape = train_buffer['act'].shape[-1]
 
-    device = 'cuda'
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
     hidden_units = 1024 if config["task"] in ['ib', 'finance', 'citylearn'] else 256
     transition = EnsembleTransition(obs_shape, action_shape, hidden_units, 4, 7).to(device)
