@@ -15,12 +15,13 @@ SEEDS = [7, 42, 210]
 ResultDir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'results'))
 
 
-def training_function(config):
+def training_function(config, config_from_cfg):
     """ run on a seed """
 
     config["kwargs"]['seed'] = config['seed']
 
-    algo_init_fn, algo_trainer_obj, algo_config = algo_select(config["kwargs"])
+    algo_init_fn, algo_trainer_obj, algo_config = algo_select(config["kwargs"], config_from_cfg)
+
 
     train_buffer, val_buffer = load_data_from_neorl(algo_config["task"],
                                                     algo_config["task_data_type"],
