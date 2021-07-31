@@ -31,7 +31,7 @@ def algo_init(args):
         raise NotImplementedError
     
     transition = EnsembleTransition(obs_shape, action_shape, args['transition_hidden_layer_size'], args['transition_layers'], args['transition_init_num']).to(args['device'])
-    transition_optim = torch.optim.AdamW(transition.parameters(), lr=args['transition_lr'], weight_decay=0.000075)
+    transition_optim = torch.optim.AdamW(transition.parameters(), lr=args['transition_lr'], weight_decay=args['transition_optim_wd'])
 
     net_a = Net(layer_num=args['hidden_layers'], 
                 state_shape=obs_shape, 
